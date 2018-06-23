@@ -1,5 +1,5 @@
 /*
-*								s_aimobject include
+*							   s_aimobject include
 *							by #Samurai aka Un[x]pected
 */
 
@@ -52,26 +52,26 @@ public OnPlayerConnect(playerid)
 public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
 	if(PRESSED(KEY_AIM))
-    {
-    	targetTimer[playerid] = SetTimerEx("TargetObjectTimer", TARGET_TIMER_INTERVAL, true, "i", playerid);
-    	EnablePlayerCameraTarget(playerid, true);
-    }
-    if(RELEASED(KEY_AIM))
-    {
+	{
+    		targetTimer[playerid] = SetTimerEx("TargetObjectTimer", TARGET_TIMER_INTERVAL, true, "i", playerid);
+    		EnablePlayerCameraTarget(playerid, true);
+    	}
+	if(RELEASED(KEY_AIM))
+	{
 		if(lastTargetObj[playerid] != INVALID_OBJECT_ID)
 		{
-    		lastTargetObj[playerid] = INVALID_OBJECT_ID;
-    		OnPlayerAimAtObject(playerid, INVALID_OBJECT_ID);
+			lastTargetObj[playerid] = INVALID_OBJECT_ID;
+			OnPlayerAimAtObject(playerid, INVALID_OBJECT_ID);
 		}
 		if(lastDynTargetObj[playerid] != 0)
 		{
-    		lastDynTargetObj[playerid] = 0;
-    		OnPlayerAimAtDynamicObject(playerid, 0);
+			lastDynTargetObj[playerid] = 0;
+			OnPlayerAimAtDynamicObject(playerid, 0);
 		}
 
-    	KillTimer(targetTimer[playerid]);
-    	EnablePlayerCameraTarget(playerid, false);
-    }
+		KillTimer(targetTimer[playerid]);
+		EnablePlayerCameraTarget(playerid, false);
+	}
 	#if defined ExOnPlayerKeyStateChange	
 		return ExOnPlayerKeyStateChange(playerid, newkeys, oldkeys);
 	#else
@@ -97,7 +97,7 @@ public TargetObjectTimer(playerid)
 	new objectid;
 
 	objectid = GetPlayerCameraTargetObject(playerid);
-    if(lastTargetObj[playerid] != objectid)
+	if(lastTargetObj[playerid] != objectid)
 	{
 		lastTargetObj[playerid] = objectid;
 		OnPlayerAimAtObject(playerid, objectid);
@@ -106,7 +106,7 @@ public TargetObjectTimer(playerid)
 	// For use with a streamer include
 	#if defined _streamer_included
 	objectid = GetPlayerCameraTargetDynObject(playerid);
-    if(lastDynTargetObj[playerid] != objectid)
+	if(lastDynTargetObj[playerid] != objectid)
 	{
 		lastDynTargetObj[playerid] = objectid;
 		OnPlayerAimAtDynamicObject(playerid, objectid);
