@@ -2,7 +2,7 @@
 Script that checks whether the player is aiming at any object
 
 ## Installation
-- Download incliude from [Here](https://github.com/0xUnxpected/s_aimobject/blob/master/s_aimobject.inc)
+- Download include from [Here](https://github.com/0xUnxpected/s_aimobject/blob/master/s_aimobject.inc)
 - Add include to your gamemode using
 ```pawn
 #include <s_aimobject>
