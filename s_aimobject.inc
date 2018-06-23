@@ -94,9 +94,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 forward TargetObjectTimer(playerid);
 public TargetObjectTimer(playerid)
 {
-	new objectid;
-
-	objectid = GetPlayerCameraTargetObject(playerid);
+	new objectid = GetPlayerCameraTargetObject(playerid);
 	if(lastTargetObj[playerid] != objectid)
 	{
 		lastTargetObj[playerid] = objectid;
