@@ -53,13 +53,11 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
 	if(PRESSED(KEY_AIM))
     {
-    	SendClientMessage(playerid, -1, "Start timer");
     	targetTimer[playerid] = SetTimerEx("TargetObjectTimer", TARGET_TIMER_INTERVAL, true, "i", playerid);
     	EnablePlayerCameraTarget(playerid, true);
     }
     if(RELEASED(KEY_AIM))
     {
-    	SendClientMessage(playerid, -1, "Stop timer");
 		if(lastTargetObj[playerid] != INVALID_OBJECT_ID)
 		{
     		lastTargetObj[playerid] = INVALID_OBJECT_ID;
