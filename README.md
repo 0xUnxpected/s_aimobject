@@ -1,4 +1,4 @@
-# OnPlayerLookAtObject
+# s_aimobject
 Script that checks whether the player is aiming at any object
 
 ## Installation
