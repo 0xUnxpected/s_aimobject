@@ -1,5 +1,5 @@
 /*
-*							   s_aimobject include
+*							    s_aimobject include
 *							by #Samurai aka Un[x]pected
 */
 
@@ -25,7 +25,22 @@ static targetTimer[MAX_PLAYERS],
 	lastTargetObj[MAX_PLAYERS],
 	lastDynTargetObj[MAX_PLAYERS];
 
+static bool:isCameraTargetEnabled[MAX_PLAYERS char];	
+
 /********************* Hooks *********************/
+stock ExEnablePlayerCameraTarget(playerid, bool:enabled, bool:update = true)
+{
+	if(update) isCameraTargetEnabled{playerid} = enabled;
+	return EnablePlayerCameraTarget(playerid, enabled);
+}
+
+#if defined _ALS_EnablePlayerCameraTarget
+	#undef EnablePlayerCameraTarget
+#else
+	#define _ALS_EnablePlayerCameraTarget
+#endif
+#define EnablePlayerCameraTarget ExEnablePlayerCameraTarget
+
 public OnPlayerConnect(playerid)
 {
 	lastTargetObj[playerid] = INVALID_OBJECT_ID;
@@ -52,9 +67,9 @@ public OnPlayerConnect(playerid)
 public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
 	if(PRESSED(KEY_AIM))
-	{
+    	{
     		targetTimer[playerid] = SetTimerEx("TargetObjectTimer", TARGET_TIMER_INTERVAL, true, "i", playerid);
-    		EnablePlayerCameraTarget(playerid, true);
+    		EnablePlayerCameraTarget(playerid, true, false);
     	}
 	if(RELEASED(KEY_AIM))
 	{
@@ -69,9 +84,11 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 			OnPlayerAimAtDynamicObject(playerid, 0);
 		}
 
-		KillTimer(targetTimer[playerid]);
-		EnablePlayerCameraTarget(playerid, false);
-	}
+    		KillTimer(targetTimer[playerid]);
+
+		if(!isCameraTargetEnabled{playerid})
+			EnablePlayerCameraTarget(playerid, false, false);
+    	}
 	#if defined ExOnPlayerKeyStateChange	
 		return ExOnPlayerKeyStateChange(playerid, newkeys, oldkeys);
 	#else
@@ -94,8 +111,10 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 forward TargetObjectTimer(playerid);
 public TargetObjectTimer(playerid)
 {
-	new objectid = GetPlayerCameraTargetObject(playerid);
-	if(lastTargetObj[playerid] != objectid)
+	new objectid;
+
+	objectid = GetPlayerCameraTargetObject(playerid);
+    	if(lastTargetObj[playerid] != objectid)
 	{
 		lastTargetObj[playerid] = objectid;
 		OnPlayerAimAtObject(playerid, objectid);
@@ -104,7 +123,7 @@ public TargetObjectTimer(playerid)
 	// For use with a streamer include
 	#if defined _streamer_included
 	objectid = GetPlayerCameraTargetDynObject(playerid);
-	if(lastDynTargetObj[playerid] != objectid)
+    	if(lastDynTargetObj[playerid] != objectid)
 	{
 		lastDynTargetObj[playerid] = objectid;
 		OnPlayerAimAtDynamicObject(playerid, objectid);
