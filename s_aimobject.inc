@@ -11,10 +11,10 @@
 	#define RELEASED(%0)		(((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
 #endif
 #if !defined KEY_AIM
-    #define KEY_AIM				(128)
+    #define KEY_AIM			(128)
 #endif
 
-#define TARGET_TIMER_INTERVAL	(200)
+#define TARGET_TIMER_INTERVAL		(200)
 
 /********************* Callbacks *********************/
 forward OnPlayerAimAtObject(playerid, objectid);
@@ -43,8 +43,11 @@ stock ExEnablePlayerCameraTarget(playerid, bool:enabled, bool:update = true)
 
 public OnPlayerConnect(playerid)
 {
+	targetTimer[playerid] = 0;
 	lastTargetObj[playerid] = INVALID_OBJECT_ID;
 	lastDynTargetObj[playerid] = 0;
+	
+	isCameraTargetEnabled{playerid} = false;
 
 	#if defined ExOnPlayerConnect	
 		return ExOnPlayerConnect(playerid);
